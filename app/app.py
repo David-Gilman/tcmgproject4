@@ -17,5 +17,19 @@ def hash(inp):
 	return json.dumps({"input":inp, "output":out})
 
 
+@app.route('/factorial/<string:inp>/')
+def factorial(inp):
+	try:
+		out = int(inp)
+		if inp < 0:
+			raise ValueError()
+	except ValueError:
+		return json.dumps({"input":inp, "output":"Value must be an integer, greater than 1"}) 
+	else:
+		for i in range(2,out):
+			out *= i
+		return json.dumps({"input":inp, "output":out})
+
+
 if __name__ == '__main__':
     app.run(debug=True,host='0.0.0.0')
