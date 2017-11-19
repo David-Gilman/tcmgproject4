@@ -21,13 +21,30 @@ def hash(inp):
 def factorial(inp):
 	try:
 		out = int(inp)
-		if inp < 0:
+		if inp <= 0:
 			raise ValueError()
 	except ValueError:
-		return json.dumps({"input":inp, "output":"Value must be an integer, greater than 1"}) 
+		return json.dumps({"input":inp, "output":"Value must be an integer, greater than 0"}) 
 	else:
 		for i in range(2,out):
 			out *= i
+		return json.dumps({"input":inp, "output":out})
+
+
+@app.route('/fibonacci/<string:inp>/')
+def fibonacci(inp):
+	try:
+		final = int(inp)
+		if final <= 0:
+			raise ValueError()
+	except ValueError:
+		return json.dumps({"input":inp, "output":"Value must be an integer, greater than 0"}) 
+	else:
+		out = [1, 1]
+		i = 0
+		while (out[-1]+out[-2]) <= final:
+			i = out[-1] + out[-2] 
+			out.append(i)
 		return json.dumps({"input":inp, "output":out})
 
 
