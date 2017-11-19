@@ -1,5 +1,8 @@
 from flask import Flask
 import json
+import requests
+import config
+
 app = Flask(__name__)
 
 
@@ -66,6 +69,16 @@ def isPrime(inp):
 		else:
 			return json.dumps({"input":inp, "output":False})
 
+@app.route('/slack-alert/<string:inp>/')
+def slackAlert(inp):
+	try:
+		url = config.hook
+		r = requests.post(url, data=json.dumps({'text':inp}),headers={'Content-Type': 'application/json'})
+		return json.dumps({"input":inp, "output":True})
+	except Exception as err:
+		print(err)
+		return json.dumps({"input":inp, "output":False})
+
 
 if __name__ == '__main__':
-    app.run(debug=True,host='0.0.0.0')
+	app.run(debug=True,host='0.0.0.0')
