@@ -20,7 +20,7 @@ def hash(inp):
 	return json.dumps({"input":inp, "output":out})
 
 
-@app.route('/factorial/<string:inp>/')
+@app.route('/factorial/<string:inp>/')#Not working, pls fix
 def factorial(inp):
 	try:
 		out = int(inp)
@@ -79,6 +79,14 @@ def slackAlert(inp):
 		print(err)
 		return json.dumps({"input":inp, "output":False})
 
+"""
+@app.route('/kv-record')
+def kv-record ():
+	print(" ")
 
+@app.route('/kv-retrieve')
+def kv-retrieve():
+	print(" ")
+"""
 if __name__ == '__main__':
 	app.run(debug=True,host='0.0.0.0')
