@@ -3,6 +3,7 @@ import json
 import requests
 import config
 
+
 app = Flask(__name__)
 
 
@@ -20,7 +21,7 @@ def hash(inp):
 	return json.dumps({"input":inp, "output":out})
 
 
-@app.route('/factorial/<string:inp>/')
+@app.route('/factorial/<string:inp>')
 def factorial(inp):
 	try:
 		out = int(inp)
@@ -34,7 +35,7 @@ def factorial(inp):
 		return json.dumps({"input":inp, "output":out})
 
 
-@app.route('/fibonacci/<string:inp>/')
+@app.route('/fibonacci/<string:inp>')
 def fibonacci(inp):
 	try:
 		final = int(inp)
@@ -51,7 +52,7 @@ def fibonacci(inp):
 		return json.dumps({"input":inp, "output":out})
 
 
-@app.route('/is-prime/<string:inp>/')
+@app.route('/is-prime/<string:inp>')
 def isPrime(inp):
         try:
                 num = int(inp)
@@ -69,7 +70,7 @@ def isPrime(inp):
 		else:
 			return json.dumps({"input":inp, "output":False})
 
-@app.route('/slack-alert/<string:inp>/')
+@app.route('/slack-alert/<string:inp>')
 def slackAlert(inp):
 	try:
 		url = config.hook
