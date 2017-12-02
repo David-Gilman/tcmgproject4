@@ -73,7 +73,7 @@ def isPrime(inp):
 @app.route('/slack-alert/<string:inp>')
 def slackAlert(inp):
 	try:
-		url = config.hook
+		url = config.HOOK
 		r = requests.post(url, data=json.dumps({'text':inp}),headers={'Content-Type': 'application/json'})
 		return json.dumps({"input":inp, "output":True})
 	except Exception as err:
