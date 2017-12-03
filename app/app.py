@@ -1,7 +1,5 @@
 from flask import Flask
-import json
-import requests
-import config
+import json, requests, config, math
 
 
 app = Flask(__name__)
@@ -21,17 +19,16 @@ def hash(inp):
 	return json.dumps({"input":inp, "output":out})
 
 
-@app.route('/factorial/<string:inp>')
-def factorial(inp):
+@app.route('/factorial/<int:inp>')
+def fact(inp):
 	try:
 		out = int(inp)
-		if inp <= 0:
+		if inp < 0:
 			raise ValueError()
 	except ValueError:
 		return json.dumps({"input":inp, "output":"Value must be an integer, greater than 0"}) 
 	else:
-		for i in range(2,out):
-			out *= i
+		out = math.factorial(out);
 		return json.dumps({"input":inp, "output":out})
 
 
