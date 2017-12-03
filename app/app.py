@@ -22,26 +22,25 @@ def hash(inp):
 @app.route('/factorial/<int:inp>')
 def fact(inp):
 	try:
-		out = int(inp)
 		if inp < 0:
 			raise ValueError()
 	except ValueError:
 		return json.dumps({"input":inp, "output":"Value must be an integer, greater than 0"}) 
 	else:
-		out = math.factorial(out);
+		out = math.factorial(inp);
 		return json.dumps({"input":inp, "output":out})
 
 
-@app.route('/fibonacci/<string:inp>')
+@app.route('/fibonacci/<int:inp>')
 def fibonacci(inp):
 	try:
-		final = int(inp)
-		if final <= 0:
+		if inp <= 0:
 			raise ValueError()
 	except ValueError:
 		return json.dumps({"input":inp, "output":"Value must be an integer, greater than 0"}) 
 	else:
-		out = [1, 1]
+		final = inp
+		out = [0, 1, 1]
 		i = 0
 		while (out[-1]+out[-2]) <= final:
 			i = out[-1] + out[-2] 
@@ -49,23 +48,26 @@ def fibonacci(inp):
 		return json.dumps({"input":inp, "output":out})
 
 
-@app.route('/is-prime/<string:inp>')
+@app.route('/is-prime/<int:inp>')
 def isPrime(inp):
         try:
-                num = int(inp)
-                if num <= 0:
+                if inp <= 0:
                         raise ValueError()
         except ValueError:
                 return json.dumps({"input":inp, "output":"Value must be an integer, greater than 0"}) 
         else:
+		num = inp
 		check = 1
 		for i in range(2, num-1):
 			if num % i == 0:
             			check = 0
+		if inp == 1:
+			check = 0
 		if check:
 			return json.dumps({"input":inp, "output":True})
 		else:
 			return json.dumps({"input":inp, "output":False})
+
 
 @app.route('/slack-alert/<string:inp>')
 def slackAlert(inp):
