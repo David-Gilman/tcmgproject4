@@ -84,16 +84,27 @@ def slackAlert(inp):
 @app.route('/kv-record/', methods = ["POST", "PUT"])
 def record():
 	try:
+		data = request.json
+		key, value = data.items()[0]
+
 		if request.method == "POST":
-			data = request.json
-			key, value = data.items()[0]
-			db.set(key, value)
-			return "0\n"
+			if db.exists(key):
+				return json.dumps({"input": "new-key", "output": False, "error": "Unable to add pair: key already exists."})
+			else:
+				db.set(key, value)
+				return json.dumps({"input": "new-key", "output": True})
 
 		elif request.method == "PUT":
-			pass
-	except:
-		return "1"
+			if db.exists(key):
+				db.set(key, value)
+				return json.dumps({"input": "existing-key", "output": True})
+			else:
+				return json.dumps({"input": "existing-key", "output": False, "error": "Unable to update value: key does not exist."})
+				
+		else:
+			raise
+	except Exception as err:
+		return json.dumps({"output": False, "error": err})
 		
 
 @app.route('/kv-retrieve/')
