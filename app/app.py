@@ -1,13 +1,14 @@
-from flask import Flask
-import json, requests, config, math
+from flask import Flask, request, json
+import json, requests, config, math, redis
 
 
 app = Flask(__name__)
+db = redis.Redis('localhost')
 
 
 @app.route('/')
 def hello_world():
-    return 'Flask Dockerized'
+    return "Hello, welcome to my API application"
 
 
 @app.route('/md5/<path:inp>')
@@ -78,6 +79,25 @@ def slackAlert(inp):
 	except Exception as err:
 		print(err)
 		return json.dumps({"input":inp, "output":False})
+
+
+@app.route('/kv-record/', methods = ["POST", "PUT"])
+def record():
+	try:
+		if request.method == "POST":
+			data = json.dumps(request.json)
+			db.set(data.key(), data,value())
+			return 0
+
+		elif request.method == "PUT":
+			pass
+	except:
+		return 1
+		
+
+@app.route('/kv-retrieve/')
+def retrieve():
+	pass
 
 
 if __name__ == '__main__':
