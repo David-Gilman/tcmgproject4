@@ -26,7 +26,7 @@ def fact(inp):
 		if inp < 0:
 			raise ValueError()
 	except ValueError:
-		return json.dumps({"input":inp, "output":"Value must be an integer, greater than 0"}) 
+		return json.dumps({"input":inp, "output":"Value must be a non-negative integer"}) 
 	else:
 		out = math.factorial(inp);
 		return json.dumps({"input":inp, "output":out})
@@ -38,7 +38,7 @@ def fibonacci(inp):
 		if inp <= 0:
 			raise ValueError()
 	except ValueError:
-		return json.dumps({"input":inp, "output":"Value must be an integer, greater than 0"}) 
+		return json.dumps({"input":inp, "output":"Value must be a non-negative integer"}) 
 	else:
 		final = inp
 		out = [0, 1, 1]
@@ -83,7 +83,7 @@ def slackAlert(inp):
 
 @app.route('/kv-record/', methods = ["POST", "PUT"])
 def record():
-	#try:
+	try:
 		if request.method == "POST":
 			data = request.json
 			key, value = data.items()[0]
@@ -92,8 +92,8 @@ def record():
 
 		elif request.method == "PUT":
 			pass
-	#except:
-	#	return "1"
+	except:
+		return "1"
 		
 
 @app.route('/kv-retrieve/')
