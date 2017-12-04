@@ -83,16 +83,17 @@ def slackAlert(inp):
 
 @app.route('/kv-record/', methods = ["POST", "PUT"])
 def record():
-	try:
+	#try:
 		if request.method == "POST":
-			data = json.dumps(request.json)
-			db.set(data.key(), data,value())
-			return 0
+			data = request.json
+			key, value = data.items()[0]
+			db.set(key, value)
+			return "0\n"
 
 		elif request.method == "PUT":
 			pass
-	except:
-		return 1
+	#except:
+	#	return "1"
 		
 
 @app.route('/kv-retrieve/')
