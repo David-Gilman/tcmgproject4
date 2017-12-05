@@ -107,9 +107,16 @@ def record():
 		return json.dumps({"output": False, "error": err})
 		
 
-@app.route('/kv-retrieve/')
-def retrieve():
-	pass
+@app.route('/kv-retrieve/<string:key>')
+def retrieve(key):
+	try:
+		if db.exists(key):
+			return json.dumps({"input": "retrieve-value", "output": db.get(key)})
+		else:
+			return json.dumps({"input": "retrieve-value", "output": False, "error": "Unable to update value: key does not exist."})
+			
+	except Exception as err:
+		return json.dumps({"output": False, "error": err})
 
 
 if __name__ == '__main__':
